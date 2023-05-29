@@ -92,13 +92,14 @@ footer {
 
  .item {
   position: relative;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   width: 350px;
   height: 500px;
   border-radius: 10px;
   display: flex;
   transform-style: preserve-3d;
   transition: all 1s;
+  cursor: pointer;
   /* overflow: hidden; */
 }
 
