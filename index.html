@@ -15,16 +15,16 @@
   </div>
   <ul>
     <li>
-      <a href="javascript:void(0);" onclick="getMovies();"> 최고등급영화 </a>
+      <a href="javascript:void(0);" onclick="getRatedMovies(top_rated);"> 최고등급영화 </a>
     </li>
     <li>
-      <a href="#"> 상영중인 영화 </a>
+      <a href="javascript:void(1);" onclick="getRatedMovies(now_playing);">상영중인 영화</a>  
     </li>
     <li>
-      <a href="#"> 유명 영화 </a>
+      <a href="javascript:void(2);" onclick="getRatedMovies(popular);">유명 영화</a> 
     </li>
     <li>
-      <a href="#"> 장르 </a>
+      <a href="javascript:void(3);" onclick="getRatedMovies(upcoming);">곧 개봉할 영화</a>
     </li>
     <li>
       <input type="text">
@@ -36,36 +36,27 @@
 <main>
   <div class="container">
     <div class="movie-card-list" id="movie-card-list">
-      <div class="item">
-        <div class="back" style=" background-size: cover; background-position: center;  background-image: URL(https://yt3.googleusercontent.com/LGPDh1G3fhM4yf6gLyigaMyeaVbzmRLL-iUGXYvDWWYudTauEjAJUKkGB064H-pVi2uHqbM_qsw=s900-c-k-c0x00ffffff-no-rj)">
-          <div class="movie-info">
-            <h3>original_title</h3>
-            <h5>release_date</h5>
-            <h5>평점: </h5>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex pariatur consequatur modi, sed culpa sit, porro quidem iste magnam, voluptatum accusantium ut dignissimos! Aliquid, blanditiis? Nihil mollitia ad possimus veniam?</p>
+      <div>
+        <div class="item">
+          <div class="back" style=" background-size: cover; background-position: center;  background-image: URL(https://yt3.googleusercontent.com/LGPDh1G3fhM4yf6gLyigaMyeaVbzmRLL-iUGXYvDWWYudTauEjAJUKkGB064H-pVi2uHqbM_qsw=s900-c-k-c0x00ffffff-no-rj)">
+            <div class="movie-info">
+              <h3>original_title</h3>
+              <h5>release_date</h5>
+              <h5>평점: </h5>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex pariatur consequatur modi, sed culpa sit, porro quidem iste magnam, voluptatum accusantium ut dignissimos! Aliquid, blanditiis? Nihil mollitia ad possimus veniam?</p>
+            </div>
+          </div>
+          <div class="front">
+            <img src="https://yt3.googleusercontent.com/LGPDh1G3fhM4yf6gLyigaMyeaVbzmRLL-iUGXYvDWWYudTauEjAJUKkGB064H-pVi2uHqbM_qsw=s900-c-k-c0x00ffffff-no-rj" alt="에러">
           </div>
         </div>
-        <div class="front">
-          <img src="https://yt3.googleusercontent.com/LGPDh1G3fhM4yf6gLyigaMyeaVbzmRLL-iUGXYvDWWYudTauEjAJUKkGB064H-pVi2uHqbM_qsw=s900-c-k-c0x00ffffff-no-rj" alt="">
-        </div>
       </div>
-      <div class="item">
-        카드
-      </div>
-      <div class="item">
-        카드
-      </div>
-      <div class="item">
-        카드
-      </div>
-      <div class="item">
-        카드
-      </div>
-
     </div>
   </div>
-  
+  <div class="
+  ">
+    <button>더보기</button>
+  </div>
 </main>
-
 </body>
 </html>

@@ -1,14 +1,24 @@
 body {
   margin: 0;
+  
+}
+
+nav, footer {
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  background-color: white;
 }
 
 nav {
+  top:0;
   display: flex;
   border: 1px solid black;
   height: 50px;
   line-height: 50px;
   justify-content: flex-end;
   align-items: center;
+
 }
 
 nav > #home {
@@ -40,12 +50,30 @@ nav a:hover {
   color: #b2dfdb;
 }
 
+main {
+  position: absolute;
+  left: 50%;
+  top: 3.2rem;
+  transform: translateX(-50%);
+}
+
+footer {
+  border: 1px solid black;
+  bottom: 0;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+}
+
+
+
 .container {
+  
   border: 1px solid black;
   padding: 20px;
 }
 
-.movie-card-list {
+#movie-card-list {
   box-sizing: border-box;
   width: 1500px;
   margin-left: auto;
@@ -57,19 +85,21 @@ nav a:hover {
   grid-gap: 1rem;
   justify-items: center;
   /* grid-auto-rows: 400px; */
-  grid-auto-rows: minmax(400px, 400px)
+  /* grid-auto-rows: minmax(400px) */
 
 }
 
 
-.item {
+ .item {
   position: relative;
   border: 1px solid black;
-  width: 300px;
+  width: 350px;
+  height: 500px;
   border-radius: 10px;
   display: flex;
   transform-style: preserve-3d;
   transition: all 1s;
+  /* overflow: hidden; */
 }
 
 .item:hover {
@@ -78,14 +108,17 @@ nav a:hover {
 
 .item > .front, .back {
   position: absolute;
-  transition: 1s;
+  transition:  1s;
+  
 }
 .item:hover .back{
   opacity: 1;
+  
 }
 
 .item:hover .front{
   opacity: 0;
+  /* transition: 1s; */
 }
 
 .item > .front{
@@ -115,24 +148,20 @@ nav a:hover {
   opacity: 0;
 }
 
-.item > .back > .movie-info {
+.movie-info {
+  background-color: #ffffffb0;
   border-radius: 10px;
   padding: 20px;
   box-sizing: border-box;
   position: absolute;
   top:0;
   left: 0;
-  
   width: 100%;
   height: 100%;
-  background-color: #ffffff9f;
-  
+}
+.add-movie {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-/* .container > .movie-card-list > .item > .back > img {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  border-radius: 10px;
-} */
