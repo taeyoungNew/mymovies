@@ -15,8 +15,9 @@ const options = {
 
 let pageCnt = 1;
 let movie_type = '';
-function sendRequest() {
-
+let movieList = [];
+function showMovieId(param) {
+  alert(`영화 id: ${param}`)
 } 
 function getRatedMovies(param) {
   // movieList 접근    
@@ -28,13 +29,14 @@ function getRatedMovies(param) {
       .then(response => {
         console.log(response);
         totalPage = 556;
+        
         // 받아온 api를 변수에 담기
         const movieDatas = response.results;
         movieDatas.map((val) => {
           console.log(val)
           const temp = document.createElement("div");
           // HTML요소 추가하기
-          temp.innerHTML = `<div class="item">
+          temp.innerHTML = `<div class="item" onclick="showMovieId(${val.id})">
                               <div class="back" style=" background-size: cover; background-position: center;  background-image: URL('${IMAGE_BASE_URL}/original${val.poster_path}')">
                                 <div class="movie-info">
                                   <h3>${val.title}</h3>
