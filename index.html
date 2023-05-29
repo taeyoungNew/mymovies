@@ -11,27 +11,26 @@
 <script src="/index.js"></script>
 <nav>
   <div id="home">
-    HOME
+    <img src="https://cdn-icons-png.flaticon.com/512/2798/2798007.png" alt="">
   </div>
   <ul>
     <li>
-      <a href="javascript:void(0);" onclick="showMovies(top_rated, false);"> 최고등급영화 </a>
+      <a href="javascript:void(0);" onclick="showMovies(top_rated, false);"> top rated </a>
     </li>
     <li>
-      <a href="javascript:void(1);" onclick="showMovies(now_playing, false);">상영중인 영화</a>  
+      <a href="javascript:void(1);" onclick="showMovies(now_playing, false);">now playing</a>  
     </li>
     <li>
-      <a href="javascript:void(2);" onclick="showMovies(popular, false);">인기 영화</a> 
+      <a href="javascript:void(2);" onclick="showMovies(popular, false);">popular</a> 
     </li>
     <li>
-      <a href="javascript:void(3);" onclick="showMovies(upcoming, false);">곧 개봉할 영화</a>
-    </li>
-    <li>
-      <input id="search_movie_title" type="text">
-      <span></span>
-      <button onclick="searchBtn(search_movie_title.value)">검색하기</button>
+      <a href="javascript:void(3);" onclick="showMovies(upcoming, false);">upcoming</a>
     </li>
   </ul>
+  <div class="search-box">
+    <input id="search_movie_title" type="text">
+    <button class="search-btn" onclick="searchBtn(search_movie_title.value)">검색하기</button>
+  </div>
 </nav>
 <main>
   <div class="container">
