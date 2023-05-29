@@ -15,25 +15,87 @@ const options = {
 
 let pageCnt = 1;
 let movie_type = '';
-let movieList = [];
+// 글로벌 변수에 영화리스트 저장
+let movieSave = [];
+
+// 객체를 깊이 복사하는 재귀함수활용
+let copyMovie = function (target) {
+  let result = {};
+  // typeof로 target이 object면 
+  if(typeof target === 'object' && target !== null) {
+      for (let pop in target) {
+          result[pop] = copyMovie(target[pop]);
+      }    
+  // target이 기본형이면
+  } else {
+      result = target;
+  }
+  return result;
+};
+
+// 영화 아이디 찍기
 function showMovieId(param) {
   alert(`영화 id: ${param}`)
 } 
+
+// 영화 검색 함수
+const searchMovie = (param) => {
+  const movieList = document.querySelector('#movie-card-list');
+  console.log('영화 찾기', param)
+  fetch(`${API_URL}search/movie?query=${param}&include_adult=false&language=ko&page=1`, options)
+  .then(response => response.json())
+  .then(response => {
+    const movieDatas = response.results;
+    while(movieList.firstChild) {
+      movieList.removeChild(movieList.firstChild);
+    }
+    movieDatas.map((val) => {
+      const temp = document.createElement("div");
+      // HTML요소 추가하기
+      temp.innerHTML = `<div class="item" onclick="showMovieId(${val.id})">
+                          <div class="back" style=" background-size: cover; background-position: center;  background-image: URL('${IMAGE_BASE_URL}/original${val.poster_path}')">
+                            <div class="movie-info">
+                              <h3>${val.title}</h3>
+                              <h5>release_date : ${val.release_date}</h5>
+                              <h5>grade: ${val.vote_average}</h5>
+                              <p>${val.overview}</p>
+                            </div>
+                          </div>
+                          <div class="front">
+                            <img src="${IMAGE_BASE_URL}/original${val.poster_path}" alt="">
+                          </div>
+                        </div>`
+      movieList.append(temp)
+      pageCnt++;
+    })
+    console.log(response)
+    // 지금 있는 리스트를 다 지우고
+    // 다시 movie-card-list > div에 붙이기
+  })
+  .catch(err => console.error(err));
+}
+
 function getRatedMovies(param) {
   // movieList 접근    
   const movieList = document.querySelector('#movie-card-list');
-  if(movie_type === ''|| movie_type === param) {
+  // 처음 영화를 불러올때 or 반복해서
+  if(movie_type === '' || movie_type === param) {
     movie_type = param
-    fetch(`${API_URL}movie/${movie_type}?language=en-US&page=${pageCnt} `, options)
+    fetch(`${API_URL}movie/${movie_type}?language=ko-KR&page=${pageCnt} `, options)
       .then(response => response.json())
       .then(response => {
-        console.log(response);
-        totalPage = 556;
-        
-        // 받아온 api를 변수에 담기
         const movieDatas = response.results;
+        totalPage = 556;
+        // console.log(copyMovie(movieDatas));
+        let movies = copyMovie(movieDatas);
+
+        for(let data in movies) {
+          movieSave.push(movies[data])
+        }
+
+        console.log(movieSave)
+        // 받아온 api를 변수에 담기
         movieDatas.map((val) => {
-          console.log(val)
           const temp = document.createElement("div");
           // HTML요소 추가하기
           temp.innerHTML = `<div class="item" onclick="showMovieId(${val.id})">
@@ -54,25 +116,33 @@ function getRatedMovies(param) {
         })
       })
       .catch(err => console.error(err));
-  } else if(movie_type != param) {
+  // 다른 영화를 불러올때
+  } else if(movie_type !== param) {
     pageCnt = 1;
     // 기존의 데이터를 지운다.
     while(movieList.firstChild) {
       movieList.removeChild(movieList.firstChild);
     }
     movie_type = param;
-    fetch(`${API_URL}movie/${movie_type}?language=en-US&page=${pageCnt} `, options)
+    fetch(`${API_URL}movie/${movie_type}?language=ko-KR&page=${pageCnt} `, options)
       .then(response => response.json())
       .then(response => {
-        console.log(response);
+        const movieDatas = response.results;
+        let movies = copyMovie(movieDatas);
+        // 저장한 데이터를 한번 지우기
+        movieSave = [];
+        // 다시 저장하기
+        for(let data in movies) {
+          movieSave.push(movies[data])
+        }
+
+        console.log('movieSave = ', movieSave)
         totalPage = 556;
         // 받아온 api를 변수에 담기
-        const movieDatas = response.results;
         movieDatas.map((val) => {
-          console.log(val)
           const temp = document.createElement("div");
           // HTML요소 추가하기
-          temp.innerHTML = `<div class="item">
+          temp.innerHTML = `<div class="item" onclick="showMovieId(${val.id})">
                               <div class="back" style=" background-size: cover; background-position: center;  background-image: URL('${IMAGE_BASE_URL}/original${val.poster_path}')">
                                 <div class="movie-info">
                                   <h3>${val.title}</h3>
@@ -90,9 +160,8 @@ function getRatedMovies(param) {
         })
       })
       .catch(err => console.error(err));
-
-      
   }
   
 }
 
+searchMovie();
