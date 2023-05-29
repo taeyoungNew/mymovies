@@ -100,7 +100,7 @@ footer {
   transform-style: preserve-3d;
   transition: all 1s;
   cursor: pointer;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 .item:hover {

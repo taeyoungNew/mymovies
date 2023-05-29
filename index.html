@@ -15,21 +15,21 @@
   </div>
   <ul>
     <li>
-      <a href="javascript:void(0);" onclick="showMovies(top_rated);"> 최고등급영화 </a>
+      <a href="javascript:void(0);" onclick="showMovies(top_rated, false);"> 최고등급영화 </a>
     </li>
     <li>
-      <a href="javascript:void(1);" onclick="showMovies(now_playing);">상영중인 영화</a>  
+      <a href="javascript:void(1);" onclick="showMovies(now_playing, false);">상영중인 영화</a>  
     </li>
     <li>
-      <a href="javascript:void(2);" onclick="showMovies(popular);">인기 영화</a> 
+      <a href="javascript:void(2);" onclick="showMovies(popular, false);">인기 영화</a> 
     </li>
     <li>
-      <a href="javascript:void(3);" onclick="showMovies(upcoming);">곧 개봉할 영화</a>
+      <a href="javascript:void(3);" onclick="showMovies(upcoming, false);">곧 개봉할 영화</a>
     </li>
     <li>
       <input id="search_movie_title" type="text">
       <span></span>
-      <button onclick="searchMovie(search_movie_title.value)">검색하기</button>
+      <button onclick="searchBtn(search_movie_title.value)">검색하기</button>
     </li>
   </ul>
 </nav>
@@ -40,7 +40,7 @@
   </div>
   <div class="btn-section">
     <div class="add-btn">
-      <button onclick="showMovies(movie_category);">더보기</button>
+      <button onclick="showMovies(movie_category, search);">더보기</button>
     </div>
   </div>
 </main>
