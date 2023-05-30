@@ -20,6 +20,9 @@ const imgErr = 'https://t4.ftcdn.net/jpg/04/70/29/97/360_F_470299797_UD0eoVMMSUb
 let movieTitle = '';
 
 let search = false;
+
+let searchCnt = 1;
+
 // 페이지수
 let pageCnt = 1;
 // 영화카테고리
@@ -49,25 +52,57 @@ window.onload=function(){
 }
 
 function searchBtn(param) {
-  pageCnt = 1;
   if(param.replace(/\s| /gi, "").length == 0 && param.replace(/\s| /gi, "").length == 0) {
     alert('타이틀 또는 내용이 빠졌어요')
-    return
+    window.location.reload();
+    // return
   } 
-  const movieList = document.querySelector('#movie-card-list');
-  while(movieList.firstChild) {
-    movieList.removeChild(movieList.firstChild);
-  }
+  // 검색버튼을 다시 누를경우 기존데이터를 지우고 리셋
+  // const movieList = document.querySelector('#movie-card-list');
+  // while(movieList.firstChild) {
+  //   movieList.removeChild(movieList.firstChild);
+  // }
   searchMovie(param)
   document.getElementById('search_movie_title').value = null;
 }
 
-const searchTitle = (param) => {
-  search = true;
+
+// 영화 검색 함수
+const searchMovie = (param) => {
+  console.log('searchMovie', param);
+  pageCnt = 1;
   const movieList = document.querySelector('#movie-card-list');
-    fetch(`${API_URL}search/movie?query=${param}&include_adult=false&language=ko&page=${pageCnt}`, options)
+  if(movieTitle === param) {
+    console.log('같은거 검색');
+    // 처음 검색을 했을 때 더보기 버튼을 눌렀을 때
+    movieTitle = param;
+    searchTitle(movieTitle);
+  } else if(movieTitle !== param) {
+    // 다른 영화를 검색했을때
+    console.log('다른거 검색');
+    searchCnt = 1;
+    movieTitle = param;
+    // 기존의 데이터를 지운다.
+    while(movieList.firstChild) {
+      movieList.removeChild(movieList.firstChild);
+    }
+    movieTitle = param;
+    searchTitle(movieTitle);
+  }
+  
+}
+
+
+const searchTitle = async (param) => {
+  const movieList = document.querySelector('#movie-card-list');
+    fetch(`${API_URL}search/movie?query=${param}&include_adult=false&language=en-US&page=${searchCnt}`, options)
     .then(response => response.json())
     .then(response => {
+      console.log(response.length)
+      if(response.length === undefined) {
+        alert('영화를 찾지 못했습니다.')
+        window.location.reload();
+      }
       const movieDatas = response.results;
       // // 기존의 카드를 지우기
       // while(movieList.firstChild) {
@@ -90,36 +125,14 @@ const searchTitle = (param) => {
                             </div>
                           </div>`
         movieList.append(temp)
-        pageCnt++;
-        movie_category = '';
       })
+      searchCnt++;
+      // movie_category = '';
       // 지금 있는 리스트를 다 지우고
       // 다시 movie-card-list > div에 붙이기`
     })
     .catch(err => console.error(err));
 }
-
-
-// 영화 검색 함수
-const searchMovie = (param) => {
-  const movieList = document.querySelector('#movie-card-list');
-  if(movieTitle === param) {
-    movieTitle = param;
-    searchTitle(movieTitle);
-  // 다른 영화를 검색했을때
-  } else if(movieTitle !== param) {
-    movieTitle = param;
-    pageCnt = 1;
-    // 기존의 데이터를 지운다.
-    while(movieList.firstChild) {
-      movieList.removeChild(movieList.firstChild);
-    }
-    movieTitle = param;
-    searchTitle(movieTitle);
-  }
-  
-}
-
 
 // 영화 아이디 찍기
 function showMovieId(param) {
@@ -131,7 +144,7 @@ function showMovieId(param) {
 const getMovieDatas = (movie_category) => {
   // movie-card-list에 접근
   const movieList = document.querySelector('#movie-card-list');
-  fetch(`${API_URL}movie/${movie_category}?language=ko-KR&page=${pageCnt} `, options)
+  fetch(`${API_URL}movie/${movie_category}?language=en-US&page=${pageCnt} `, options)
       .then(response => response.json())
       .then(response => {
         // 불러온 데이터를 movieDatas 상수로 참조
@@ -149,43 +162,81 @@ const getMovieDatas = (movie_category) => {
                                 </div>
                               </div>
                               <div class="front">
-                                <img src="${IMAGE_BASE_URL}/original${val.poster_path}" alt="">
+                                <img src="${IMAGE_BASE_URL}/original${val.poster_path}" alt="" onerror="this.src='${imgErr}'">
                               </div>
                             </div>`
           movieList.append(temp)
-          pageCnt++;
         })
+        pageCnt++;
       })
       .catch(err => console.error(err));
 }
 
 // 영화리스트 보이기
-function showMovies(param, search) {
+function showMovies(param) {
+  // search = booleanVal;
   const movieList = document.querySelector('#movie-card-list');
-  // search가 true면
-  if(search === true) {
-    console.log('search? = ', search)
-    // searchMovie를 실행하고
-    searchMovie(movieTitle);
-    // showMovie함수는 중지
-    return;
-  } 
-  // movieList 접근    
-  // 처음 영화를 불러올때 or 반복해서
   if(movie_category === '' || movie_category === param) {
+    console.log('처음 or 반복 pageCnt = ', pageCnt)
     movie_category = param;
     getMovieDatas(movie_category);
   // 다른 영화를 불러올때
   } else if(movie_category !== param) {
     pageCnt = 1;
+    console.log('다른 카테고리 누름 pageCnt = ', pageCnt)
     // 기존의 데이터를 지운다.
     while(movieList.firstChild) {
       movieList.removeChild(movieList.firstChild);
     }
     movie_category = param;
     getMovieDatas(movie_category);
+    
   }
   
 }
 
-searchMovie();
+// 검색을 했는지 카테고리를 눌렀는지 확인하는 함수
+const checkFunc = (param, searchValue) => {
+  console.log('movie_category = ', movie_category)
+  const movieList = document.querySelector('#movie-card-list');
+  if(param === "letSearch") {
+    movie_category = "letSearch";
+    // 카테고리를 누른 흔적이 있따?
+    if(search === false) {
+      // 검색해서 나왔던 데이터를 모두 지운다.
+      while(movieList.firstChild) {
+        movieList.removeChild(movieList.firstChild);
+      }
+    }
+    console.log('searchValue = ', searchValue)
+    pageCnt = 1;
+    search = true;
+    movie_category = "letSearch";
+    // 매개변수인 searchValu가 undefined인지 구분
+    if(!searchValue) {
+      searchBtn(movieTitle);
+    } else {
+      searchBtn(searchValue);
+    }
+    // 검색기능 실행
+  } else {
+    // 검색기능을 한 흔적이 있다?  
+    if(search === true) {
+      // 검색해서 나왔던 데이터를 모두 지운다.
+      while(movieList.firstChild) {
+        movieList.removeChild(movieList.firstChild);
+      }
+    }
+
+    searchCnt = 1;
+    search = false;
+    // 카테고리 실행
+    showMovies(param);
+
+  }
+}
+
+
+// searchMovie();
+
+
