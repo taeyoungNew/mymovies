@@ -45,15 +45,15 @@ let movieSave = [];
 //   return result;
 // };
 
-window.onload=function(){
-  movie_category = top_rated;
-  //실행할 내용
-  showMovies(movie_category, search);
-}
+// window.onload=function(){
+//   movie_category = top_rated;
+//   //실행할 내용
+//   showMovies(movie_category, search);
+// }
 
 function searchBtn(param) {
   if(param.replace(/\s| /gi, "").length == 0 && param.replace(/\s| /gi, "").length == 0) {
-    alert('타이틀 또는 내용이 빠졌어요')
+    alert('타이틀 또는 내용이 빠졌어요');
     window.location.reload();
     // return
   } 
@@ -98,34 +98,38 @@ const searchTitle = async (param) => {
     fetch(`${API_URL}search/movie?query=${param}&include_adult=false&language=en-US&page=${searchCnt}`, options)
     .then(response => response.json())
     .then(response => {
-      console.log(response.length)
-      if(response.length === undefined) {
+      if(response.results.length === 0) {
         alert('영화를 찾지 못했습니다.')
-        window.location.reload();
+        
+        // window.location.reload();
       }
       const movieDatas = response.results;
       // // 기존의 카드를 지우기
       // while(movieList.firstChild) {
       //   movieList.removeChild(movieList.firstChild);
       // }
-      movieDatas.map((val) => {
+
+
+      movieDatas.reduce((acc, curr) => {
+        console.log('movieDatas = ', curr)
         const temp = document.createElement("div");
         // HTML요소 추가하기
-        temp.innerHTML = `<div class="item" onclick="showMovieId(${val.id})">
-                            <div class="back" style=" background-size: cover; background-position: center;  background-image: URL('${IMAGE_BASE_URL}/original${val.poster_path}')">
+        temp.innerHTML = `<div class="item" onclick="showMovieId(${curr.id})">
+                            <div class="back" style=" background-size: cover; background-position: center;  background-image: URL('${IMAGE_BASE_URL}/original${curr.poster_path}')">
                               <div class="movie-info">
-                                <h3>${val.title}</h3>
-                                <h5>release_date : ${val.release_date}</h5>
-                                <h5>grade: ${val.vote_average}</h5>
-                                <p>${val.overview}</p>
+                                <h3>${curr.title}</h3>
+                                <h5>release_date : ${curr.release_date}</h5>
+                                <h5>grade: ${curr.vote_average}</h5>
+                                <p>${curr.overview}</p>
                               </div>
                             </div>
                             <div class="front">
-                              <img src="${IMAGE_BASE_URL}/original${val.poster_path}" alt="" onerror="this.src='${imgErr}'">
+                              <img src="${IMAGE_BASE_URL}/original${curr.poster_path}" alt="" onerror="this.src='${imgErr}'">
                             </div>
                           </div>`
         movieList.append(temp)
       })
+
       searchCnt++;
       // movie_category = '';
       // 지금 있는 리스트를 다 지우고
