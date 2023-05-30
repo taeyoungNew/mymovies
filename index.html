@@ -15,21 +15,21 @@
   </div>
   <ul>
     <li>
-      <a href="javascript:void(0);" onclick="showMovies(top_rated, false);"> top rated </a>
+      <a href="javascript:void(0);" onclick="checkFunc(top_rated, false);"> top rated </a>
     </li>
     <li>
-      <a href="javascript:void(1);" onclick="showMovies(now_playing, false);">now playing</a>  
+      <a href="javascript:void(1);" onclick="checkFunc(now_playing, false);">now playing</a>  
     </li>
     <li>
-      <a href="javascript:void(2);" onclick="showMovies(popular, false);">popular</a> 
+      <a href="javascript:void(2);" onclick="checkFunc(popular, false);">popular</a> 
     </li>
     <li>
-      <a href="javascript:void(3);" onclick="showMovies(upcoming, false);">upcoming</a>
+      <a href="javascript:void(3);" onclick="checkFunc(upcoming, false);">upcoming</a>
     </li>
   </ul>
   <div class="search-box">
     <input id="search_movie_title" type="text">
-    <button class="search-btn" onclick="searchBtn(search_movie_title.value)">검색하기</button>
+    <button class="search-btn" onclick="checkFunc(`letSearch`, search_movie_title.value)">검색하기</button>
   </div>
 </nav>
 <main>
@@ -39,9 +39,10 @@
   </div>
   <div class="btn-section">
     <div class="add-btn">
-      <button onclick="showMovies(movie_category, search);">더보기</button>
+      <button onclick="checkFunc(movie_category);">더보기</button>
     </div>
   </div>
 </main>
 </body>
 </html>
+
