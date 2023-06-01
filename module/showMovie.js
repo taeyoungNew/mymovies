@@ -53,6 +53,7 @@ const mkMovieCard = (param) => {
 
 
 export {
+  categorySave,
   categoryCheck,
   mkMovieCard
 }
