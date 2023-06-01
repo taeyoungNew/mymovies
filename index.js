@@ -12,7 +12,7 @@ const upcomingClick = document.getElementById('upcoming')
 
 
 // 
-let contentsType = ''
+let contentsType = '';
 
 const categoryMovie = async (param) => {
   const movieCategory = param;
