@@ -42,10 +42,6 @@ function searchBtn(param) {
     // return
   } 
   // 검색버튼을 다시 누를경우 기존데이터를 지우고 리셋
-  // const movieList = document.querySelector('#movie-card-list');
-  // while(movieList.firstChild) {
-  //   movieList.removeChild(movieList.firstChild);
-  // }
   searchMovie(param)
   document.getElementById('search_movie_title').value = null;
 }
