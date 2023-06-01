@@ -45,11 +45,11 @@ let movieSave = [];
 //   return result;
 // };
 
-window.onload=function(){
-  movie_category = top_rated;
-  //실행할 내용
-  showMovies(movie_category, search);
-}
+// window.onload=function(){
+//   movie_category = top_rated;
+//   //실행할 내용
+//   showMovies(movie_category, search);
+// }
 
 function searchBtn(param) {
   if(param.replace(/\s| /gi, "").length == 0 && param.replace(/\s| /gi, "").length == 0) {
@@ -97,7 +97,7 @@ const searchTitle = async (param) => {
       if(response.results.length === 0) {
         alert('영화를 찾지 못했습니다.')
         
-        window.location.reload();
+        // window.location.reload();
       }
       const movieDatas = response.results;
       // // 기존의 카드를 지우기
@@ -124,7 +124,7 @@ const searchTitle = async (param) => {
                             </div>
                           </div>`
         movieList.append(temp)
-      }, 0)
+      })
 
       searchCnt++;
       // movie_category = '';
