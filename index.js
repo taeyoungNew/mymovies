@@ -45,11 +45,11 @@ let movieSave = [];
 //   return result;
 // };
 
-// window.onload=function(){
-//   movie_category = top_rated;
-//   //실행할 내용
-//   showMovies(movie_category, search);
-// }
+window.onload=function(){
+  movie_category = top_rated;
+  //실행할 내용
+  showMovies(movie_category, search);
+}
 
 function searchBtn(param) {
   if(param.replace(/\s| /gi, "").length == 0 && param.replace(/\s| /gi, "").length == 0) {
