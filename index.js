@@ -30,6 +30,10 @@ let movie_category = '';
 // 글로벌 변수에 영화리스트 저장
 let movieSave = [];
 
+const test = '깃허브 브랜치 바꾸기'
+
+
+
 // 객체를 깊이 복사하는 재귀함수활용
 // let copyMovie = function (target) {
 //   let result = {};
