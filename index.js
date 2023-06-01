@@ -45,11 +45,16 @@ let movieSave = [];
 //   return result;
 // };
 
-// window.onload=function(){
-//   movie_category = top_rated;
-//   //실행할 내용
-//   showMovies(movie_category, search);
-// }
+window.onload=function(){
+  movie_category = top_rated;
+  //실행할 내용
+  showMovies(movie_category, search);
+}
+
+// 영화 아이디 찍기
+function showMovieId(param) {
+  alert(`영화 id: ${param}`)
+}
 
 function searchBtn(param) {
   if(param.replace(/\s| /gi, "").length == 0 && param.replace(/\s| /gi, "").length == 0) {
@@ -65,26 +70,55 @@ function searchBtn(param) {
 
 // 영화 검색 함수
 const searchMovie = (param) => {
-  console.log('searchMovie', param);
-  pageCnt = 1;
+  let find = true;
   const movieList = document.querySelector('#movie-card-list');
-  if(movieTitle === param) {
-    console.log('같은거 검색');
-    // 처음 검색을 했을 때 더보기 버튼을 눌렀을 때
-    movieTitle = param;
-    searchTitle(movieTitle);
-  } else if(movieTitle !== param) {
-    // 다른 영화를 검색했을때
-    console.log('다른거 검색');
-    searchCnt = 1;
-    movieTitle = param;
-    // 기존의 데이터를 지운다.
-    while(movieList.firstChild) {
-      movieList.removeChild(movieList.firstChild);
+  pageCnt = 1;  
+  // const movieList = document.querySelector('#movie-card-list');
+  if(find) {
+    movieSave.forEach((x) => {
+      if(x.title.toUpperCase().includes(param.toUpperCase())) {
+
+        console.log('찾음');
+        const temp = document.createElement("div");
+          // HTML요소 추가하기
+          temp.innerHTML = `<div class="item" onclick="showMovieId(${x.id})">
+                              <div class="back" style=" background-size: cover; background-position: center;  background-image: URL('${IMAGE_BASE_URL}/original${x.poster_path}')">
+                                <div class="movie-info">
+                                  <h3>${x.title}</h3>
+                                  <h5>release_date : ${x.release_date}</h5>
+                                  <h5>grade: ${x.vote_average}</h5>
+                                  <p>${x.overview}</p>
+                                </div>
+                              </div>
+                              <div class="front">
+                                <img src="${IMAGE_BASE_URL}/original${x.poster_path}" alt="" onerror="this.src='${imgErr}'">
+                              </div>
+                            </div>`
+          movieList.append(temp)
+      } else {
+        find = false
+      }
+    })
+  } else {
+    if(movieTitle === param) {
+      // 처음 검색을 했을 때 더보기 버튼을 눌렀을 때
+      movieTitle = param;
+      searchTitle(movieTitle);
+    } else if(movieTitle !== param) {
+      // 다른 영화를 검색했을때
+      searchCnt = 1;
+      movieTitle = param;
+      // 기존의 데이터를 지운다.
+      while(movieList.firstChild) {
+        movieList.removeChild(movieList.firstChild);
+      }
+      movieTitle = param;
+      searchTitle(movieTitle);
     }
-    movieTitle = param;
-    searchTitle(movieTitle);
   }
+
+  
+
   
 }
 
@@ -96,16 +130,9 @@ const searchTitle = async (param) => {
     .then(response => {
       if(response.results.length === 0) {
         alert('영화를 찾지 못했습니다.')
-        
-        // window.location.reload();
       }
       const movieDatas = response.results;
       // // 기존의 카드를 지우기
-      // while(movieList.firstChild) {
-      //   movieList.removeChild(movieList.firstChild);
-      // }
-
-
       movieDatas.reduce((acc, curr) => {
         console.log('movieDatas = ', curr)
         const temp = document.createElement("div");
@@ -129,15 +156,10 @@ const searchTitle = async (param) => {
       searchCnt++;
       // movie_category = '';
       // 지금 있는 리스트를 다 지우고
-      // 다시 movie-card-list > div에 붙이기`
     })
     .catch(err => console.error(err));
 }
-
-// 영화 아이디 찍기
-function showMovieId(param) {
-  alert(`영화 id: ${param}`)
-} 
+ 
 
 
 // fetch가 있는 함수를 따로 정의
@@ -148,7 +170,9 @@ const getMovieDatas = (movie_category) => {
       .then(response => response.json())
       .then(response => {
         // 불러온 데이터를 movieDatas 상수로 참조
+        
         const movieDatas = response.results;
+        movieSave = movieDatas;
         movieDatas.map((val) => {
           const temp = document.createElement("div");
           // HTML요소 추가하기
