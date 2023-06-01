@@ -29,6 +29,22 @@ let pageCnt = 1;
 let movie_category = '';
 // 글로벌 변수에 영화리스트 저장
 let movieSave = [];
+
+// 객체를 깊이 복사하는 재귀함수활용
+// let copyMovie = function (target) {
+//   let result = {};
+//   // typeof로 target이 object면 
+//   if(typeof target === 'object' && target !== null) {
+//       for (let pop in target) {
+//           result[pop] = copyMovie(target[pop]);
+//       }    
+//   // target이 기본형이면
+//   } else {
+//       result = target;
+//   }
+//   return result;
+// };
+
 window.onload=function(){
   movie_category = top_rated;
   //실행할 내용
@@ -37,7 +53,7 @@ window.onload=function(){
 
 function searchBtn(param) {
   if(param.replace(/\s| /gi, "").length == 0 && param.replace(/\s| /gi, "").length == 0) {
-    alert('타이틀 또는 내용이 빠졌어요')
+    alert('타이틀 또는 내용이 빠졌어요');
     window.location.reload();
     // return
   } 
@@ -53,11 +69,13 @@ const searchMovie = (param) => {
   pageCnt = 1;
   const movieList = document.querySelector('#movie-card-list');
   if(movieTitle === param) {
+    console.log('같은거 검색');
     // 처음 검색을 했을 때 더보기 버튼을 눌렀을 때
     movieTitle = param;
     searchTitle(movieTitle);
   } else if(movieTitle !== param) {
     // 다른 영화를 검색했을때
+    console.log('다른거 검색');
     searchCnt = 1;
     movieTitle = param;
     // 기존의 데이터를 지운다.
@@ -76,9 +94,9 @@ const searchTitle = async (param) => {
     fetch(`${API_URL}search/movie?query=${param}&include_adult=false&language=en-US&page=${searchCnt}`, options)
     .then(response => response.json())
     .then(response => {
-      console.log(response.length)
-      if(response.length === undefined) {
+      if(response.results.length === 0) {
         alert('영화를 찾지 못했습니다.')
+        
         window.location.reload();
       }
       const movieDatas = response.results;
@@ -86,24 +104,28 @@ const searchTitle = async (param) => {
       // while(movieList.firstChild) {
       //   movieList.removeChild(movieList.firstChild);
       // }
-      movieDatas.map((val) => {
+
+
+      movieDatas.reduce((acc, curr) => {
+        console.log('movieDatas = ', curr)
         const temp = document.createElement("div");
         // HTML요소 추가하기
-        temp.innerHTML = `<div class="item" onclick="showMovieId(${val.id})">
-                            <div class="back" style=" background-size: cover; background-position: center;  background-image: URL('${IMAGE_BASE_URL}/original${val.poster_path}')">
+        temp.innerHTML = `<div class="item" onclick="showMovieId(${curr.id})">
+                            <div class="back" style=" background-size: cover; background-position: center;  background-image: URL('${IMAGE_BASE_URL}/original${curr.poster_path}')">
                               <div class="movie-info">
-                                <h3>${val.title}</h3>
-                                <h5>release_date : ${val.release_date}</h5>
-                                <h5>grade: ${val.vote_average}</h5>
-                                <p>${val.overview}</p>
+                                <h3>${curr.title}</h3>
+                                <h5>release_date : ${curr.release_date}</h5>
+                                <h5>grade: ${curr.vote_average}</h5>
+                                <p>${curr.overview}</p>
                               </div>
                             </div>
                             <div class="front">
-                              <img src="${IMAGE_BASE_URL}/original${val.poster_path}" alt="" onerror="this.src='${imgErr}'">
+                              <img src="${IMAGE_BASE_URL}/original${curr.poster_path}" alt="" onerror="this.src='${imgErr}'">
                             </div>
                           </div>`
         movieList.append(temp)
-      })
+      }, 0)
+
       searchCnt++;
       // movie_category = '';
       // 지금 있는 리스트를 다 지우고
@@ -216,4 +238,5 @@ const checkFunc = (param, searchValue) => {
 
 
 // searchMovie();
+
 

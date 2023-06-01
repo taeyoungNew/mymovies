@@ -5,10 +5,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>영화소개</title>
-  <link rel="stylesheet" href="./css/style.css">
-  <script src="main.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<script src="/index.js"></script>
 <nav>
   <div id="home">
     <img src="https://cdn-icons-png.flaticon.com/512/2798/2798007.png" alt="">
@@ -28,8 +28,7 @@
     </li>
   </ul>
   <div class="search-box">
-    <!-- 검색창 -->
-    <input id="search_movie_title" type="text" placeholder="영화제목">
+    <input id="search_movie_title" type="text">
     <button class="search-btn" onclick="checkFunc(`letSearch`, search_movie_title.value)">검색하기</button>
   </div>
 </nav>
