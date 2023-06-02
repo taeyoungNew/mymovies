@@ -108,3 +108,44 @@ mkMovieCard(paramMovies);
 
 
 #### 3) 더보기 버튼
+(1) 더보기 버튼을 클릭시 contetsType변수를 addMoreContents함수의 매개변수로 보낸다. 
+```
+// index.js
+// 더보기버튼은 클라이언트가 카테고리를 눌렀는지 검색을 눌렀는지 체크해야한다.
+moreContents.addEventListener('click', () => {
+  addMoreContents(contentsType)
+})
+``` 
+
+(2) addMoreContents가 컨텐츠타입을 받아 클라이언트가 카테고리를 눌렀는지 검색을 눌렀는지 확인하여 카테고리를 눌렀을 경우 getMovieApi함수에 카테고리값과 페이지값을 검색을 눌렀을 경우 searchMovieApi함수에 타이틀값과 페이지값을 매개변수로 보낸다. 
+```
+const addMoreContents = async (param) => {
+  if(contentType ===  'category') {
+    // nowCategory가 값이 없으면 param을 저장한다.
+    if(nowCategory === '') {
+      nowCategory = param
+    }
+    // 다른카테고리를 눌렀을 경우 저장한 nowCategory와 param을 비교하여 틀리면 페이지의 수를 리셋한다.
+    if(nowCategory !== param) {
+      nowCategory = param
+      pageCnt = 2;
+    }
+    // 현재카테고리와 페이지수를 api로 보내어 데이터를 가져온다.
+    await getMovieApi(nowCategory, pageCnt)
+    mkMovieCard(getMovies)
+
+  } else if(contentType === 'search') {
+    // await를 안하면 api를 채 불러오기존에 card가 생성되버린다.
+    await searchMovieApi(title, pageCnt)
+    mkMovieCard(getMovies)
+  }
+  pageCnt++;
+}
+
+(3) 받아온 데이터를 mkMovieCard함수에 보내어 영화카드로 만들어 클라이언트에 추가로 보여준다.  
+```
+ mkMovieCard(getMovies)
+```  
+
+## 3. 개선점 
+#### 1. 영화검색시 기존의 데이터안에서 검색하는 기능이 오류가 존재 
