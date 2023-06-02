@@ -12,8 +12,15 @@ const popularClick = document.getElementById('popular')
 const upcomingClick = document.getElementById('upcoming')
 const moreContents = document.getElementById('more-contents')
 
+// 사이트가 실행되었을때 topreated카테고리의 영화를 보여준다.
+window.onload=function(){
+  // 첫 실행시 더보기를 눌렀을 때 top_rated카테고리의 영화를 더 불러올수 있게 한다.
+  contentsType = topRatedClick.id; 
+  categoryMovie(topRatedClick.id)
+}
 
-// 
+
+// s
 let contentsType = '';
 
 const categoryMovie = async (param) => {
@@ -21,6 +28,7 @@ const categoryMovie = async (param) => {
   changeType('category');
   const movieCategory = param;
   let pageCnt = 1;
+
   // 카테고리와 페이지수를 넘김
   await getMovieApi(movieCategory, pageCnt);
   // console.log(getMovies)
@@ -29,10 +37,6 @@ const categoryMovie = async (param) => {
   categoryCheck(getMovies, movieCategory)
 }
 
-// 사이트가 실행되었을때 
-window.onload=function(){
-  categoryMovie(topRatedClick.id)
-}
 
 
 // 검색버튼을 눌렀을 때 실행되는 함수

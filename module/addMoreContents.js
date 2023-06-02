@@ -33,8 +33,8 @@ const addMoreContents = async (param) => {
     // 현재카테고리와 페이지수를 api로 보내어 데이터를 가져온다.
     await getMovieApi(nowCategory, pageCnt)
     mkMovieCard(getMovies)
+
   } else if(contentType === 'search') {
-    console.log(title, pageCnt)
     // await를 안하면 api를 채 불러오기존에 card가 생성되버린다.
     await searchMovieApi(title, pageCnt)
     mkMovieCard(getMovies)

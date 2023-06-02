@@ -4,6 +4,7 @@ let contentType = "";
 const changeType = (typeParam) => {
   // 카테고리를 눌렀을때 category가 검색버튼을 눌렀을때 search가 매개변수로 온다.
   contentType = typeParam;
+  console.log('contentType', contentType)
 }
 
 export {
