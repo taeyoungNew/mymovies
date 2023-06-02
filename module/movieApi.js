@@ -31,7 +31,8 @@ const getMovieApi = async (category, pageCnt) => {
   await fetch(`${API_URL}movie/${category}?language=en-US&page=${pageCnt}`, options)
     .then(response => response.json())
     .then(response => { 
-      console.log(response.results);
+      const { results } = response
+      console.log(results);
       // 토탈페이지보다 더 많은 페이지를 요구 할 경우 스톱해주기
       if(response.total_pages < pageCnt) {
         alert('더이상 영화가 없어요.')
